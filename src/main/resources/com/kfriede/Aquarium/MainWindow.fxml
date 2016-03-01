@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="mainAnchor" prefHeight="320.0" prefWidth="913.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kfriede.Aquarium.MainWindow">
+   <children>
+      <MenuBar prefWidth="151.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File" />
+          <Menu fx:id="editMenu" mnemonicParsing="false" text="Edit" />
+          <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help" />
+        </menus>
+      </MenuBar>
+      <AnchorPane layoutX="913.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+         <children>
+            <GridPane hgap="10.0" prefHeight="30.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" maxWidth="48.0" minWidth="10.0" prefWidth="58.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="200.0" />
+                <ColumnConstraints hgrow="NEVER" maxWidth="68.0" minWidth="10.0" prefWidth="68.0" />
+                <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" />
+                  <ColumnConstraints hgrow="NEVER" maxWidth="68.0" minWidth="10.0" prefWidth="68.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="150.0" minWidth="100.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="40.0" minWidth="10.0" prefWidth="40.0" />
+                  <ColumnConstraints hgrow="NEVER" maxWidth="68.0" minWidth="0.0" prefWidth="68.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Command:" GridPane.columnIndex="2" />
+                  <ComboBox fx:id="commandComboBox" MaxWidth="Infinity" prefHeight="27.0" prefWidth="0.0" GridPane.columnIndex="3" />
+                  <Label prefHeight="17.0" prefWidth="81.0" text="Parameter:" GridPane.columnIndex="4" />
+                  <ComboBox fx:id="parameterComboBox" MaxWidth="Infinity" GridPane.columnIndex="5" />
+                  <Button fx:id="sendButton" defaultButton="true" mnemonicParsing="false" prefHeight="27.0" prefWidth="248.0" text="Send" GridPane.columnIndex="7" GridPane.halignment="CENTER" />
+                  <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="?" GridPane.columnIndex="6">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip fx:id="helpTooltip" text="Empty Tooltip" />
+                     </tooltip></Button>
+                  <Label text="Node:" />
+                  <ComboBox fx:id="nodeComboBox" prefHeight="27.0" prefWidth="559.0" GridPane.columnIndex="1" />
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </GridPane>
+         </children>
+      </AnchorPane>
+      <TextArea fx:id="consoleTextArea" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="68.0" />
+      <Label fx:id="threadCountLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="836.0" layoutY="298.0" nodeOrientation="RIGHT_TO_LEFT" text="Threads: 0" textFill="#000000cd" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0" />
+   </children>
+</AnchorPane>

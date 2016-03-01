@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Test TV",
+    "ip": "172.16.76.199",
+    "port": "10002",
+    "username": "",
+    "password": ""
+  },
+  {
+    "name": "Pastor Green Room",
+    "ip": "172.16.76.100",
+    "port": "10002",
+    "username": "",
+    "password": ""
+  },
+  {
+    "name": "Pastor Study",
+    "ip": "172.16.76.101",
+    "port": "10002",
+    "username": "",
+    "password": ""
+  },
+  {
+    "name": "Band Green Room",
+    "ip": "172.16.76.102",
+    "port": "10002",
+    "username": "",
+    "password": ""
+  },
+  {
+    "name": "Prayer Room",
+    "ip": "172.16.76.103",
+    "port": "10002",
+    "username": "",
+    "password": ""
+  },
+  {
+    "name": "Backstage Hallway",
+    "ip": "172.16.76.104",
+    "port": "10002",
+    "username": "",
+    "password": ""
+  }
+]

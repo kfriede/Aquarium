@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.kfriede</groupId>
 	<artifactId>Aquarium</artifactId>
-	<version>0.0.1-ALPHA</version>
+	<version>0.0.2-ALPHA</version>
 	<name>Aquarium</name>
 	<description>A controller for Sharp Aquos IP displays</description>
 

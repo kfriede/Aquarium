@@ -86,6 +86,10 @@ public class MainWindow {
 			loadDefaults();
 			
 		} catch (Exception ex) {
+			
+			/**
+			 * SHOW EXCEPTION ALERT DIALOG
+			 */
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Unhandled Exception:");
@@ -142,10 +146,11 @@ public class MainWindow {
         
         fileMenu.getItems().addAll(openFile, exit);
         
+        
+        
         /**
          * Edit Menu
          */
-        
         selectAll = new CheckMenuItem("Select All");
         selectAll.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent t) {
@@ -173,7 +178,6 @@ public class MainWindow {
         /**
          * Help Menu
          */
-        
         MenuItem about = new MenuItem("About");
         about.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent t) {
@@ -185,6 +189,10 @@ public class MainWindow {
 	}
 	
 	
+	/**
+	 * Loads nodes from a nodeList into combobox
+	 * @param tvList
+	 */
 	private void loadNodes(List<Television> tvList) {
 		this.tvList = tvList;
 		
@@ -195,6 +203,10 @@ public class MainWindow {
 		}
 	}
 	
+	/**
+	 * Loads commands into combobox from a commandlist
+	 * @param commandList
+	 */
 	private void loadCommands(List<Command> commandList) {
 		this.commandList = commandList;
 		
@@ -205,6 +217,10 @@ public class MainWindow {
 		}
 	}
 	
+	/**
+	 * Loads parameters given a selected command
+	 * @param command
+	 */
 	private void loadParameters(Command command) {
 		
 		parameterComboBox.getItems().clear();
@@ -214,6 +230,9 @@ public class MainWindow {
 		}
 	}
 	
+	/**
+	 * Handles when user selects to open a new file
+	 */
 	private void handleFileOpen() {
 		FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Open Resource File");
@@ -233,10 +252,20 @@ public class MainWindow {
     	
 	}
 	
+	/**
+	 * Handler<br>
+	 * Handles selection of Node combo box
+	 * @param newSelection
+	 */
 	private void handleNodeSelection(Television newSelection) {
 		selectedNode = newSelection;
 	}
 	
+	/**
+	 * Handler<br>
+	 * Handles selection of Command combo box
+	 * @param newSelection
+	 */
 	private void handleCommandSelection(Command newSelection) {
 		selectedCommand = newSelection;
 		
@@ -245,10 +274,19 @@ public class MainWindow {
 		}
 	}
 	
+	/**
+	 * Handler<br>
+	 * Handles selection of the Parameter combo box
+	 * @param newSelection
+	 */
 	private void handleParameterSelection(Parameter newSelection) {
 		selectedParameter = newSelection;
 	}
 	
+	/**
+	 * Handler<br>
+	 * Sends selected values to selected TV(s)
+	 */
 	private void handleSendButtonClick() {
 		if (threadManager.activeCount() > 0) {
 			threadManager.destroy();
@@ -295,10 +333,18 @@ public class MainWindow {
 		}
 	}
 	
+	/**
+	 * Handler<br>
+	 * Selects/Deselects all nodes available based on user action
+	 */
 	private void handleSelectAll() {
 		nodeComboBox.setDisable((selectAll.isSelected() ? true : false));
 	}
 	
+	/**
+	 * Handler<br>
+	 * Updates the thread counter label with the current number of active threads
+	 */
 	private void updateThreadCountLabel() {
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -307,6 +353,9 @@ public class MainWindow {
 		});
 	}
 	
+	/**
+	 * Loads commands and nodes from default locations
+	 */
 	private void loadDefaults() {
 		/**
 		 * Load command list
@@ -329,6 +378,9 @@ public class MainWindow {
 		}
 	}
 	
+	/**
+	 * Builds listeners and actions for ComboBoxes 
+	 */
 	private void setListeners() {
 		/**
 		 * Set comboBox listeners
@@ -348,6 +400,7 @@ public class MainWindow {
 	        	handleParameterSelection(t1);
 	        }    
 	    });
+		// TODO
 //		helpButton.setOnAction(new EventHandler<ActionEvent>() {
 //		    @Override public void handle(ActionEvent e) {
 //		        handleHelpButtonClick();
@@ -360,6 +413,10 @@ public class MainWindow {
 		});
 	}
 	
+	/**
+	 * Convenience method for appending to consoleTextArea
+	 * @param text Text to Append
+	 */
 	private void append(final String text) {
 		Platform.runLater(new Runnable() {
 			public void run() {
@@ -368,12 +425,15 @@ public class MainWindow {
 		});
 	}
 	
+	/**
+	 * Handler<br>
+	 * Creates behavior of consoleTextArea auto scrolling with appended text
+	 */
 	private void setConsoleTextAreaListener() {
 		consoleTextArea.textProperty().addListener(new ChangeListener<Object>() {
 		    public void changed(ObservableValue<?> observable, Object oldValue,
 		            Object newValue) {
-		        consoleTextArea.setScrollTop(Double.MIN_VALUE); //this will scroll to the bottom
-		        //use Double.MIN_VALUE to scroll to the top
+		        consoleTextArea.setScrollTop(Double.MIN_VALUE);
 		    }
 		});
 	}

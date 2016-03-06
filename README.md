@@ -1,6 +1,9 @@
 # Aquarium - IP Remote Control for Sharp Aquos TV's
 Sharp Aquos TV's provide the ability to be controlled via IP.  This utility allows you to send commands to one or many IP controlled Sharp TV via a computer.  
 
+## Executable Binaries
+Aquarium executables can be downloaded from [here.](https://github.com/kfriede/Aquarium/releases)  To run, unzip and double click the Aquarium.jar file.  
+
 ## TV Setup
 - Connect TV to network either via ethernet cable or WiFi.  A static IP address is highly recommended.  Settings can be found via "Internet Options" menu item.
 - Turn ON Aquos Remote functionality found in the "Internet Options" menu item.  Set this to "enable".
@@ -8,7 +11,7 @@ Sharp Aquos TV's provide the ability to be controlled via IP.  This utility allo
 - (Recommended) Set "Quick Power", located in "Intial Setup" menu to ON.
 
 ## Setting up nodes.json
-Aquarium is dependent on a JSON formatted file which contains information of the TV's (nodes) of which to send commands to.  An example of the format required is located in `nodes.json`.  
+Aquarium is dependent on a JSON formatted file which contains information of the TV's (nodes) of which to send commands to.  An example of the format required is located in `nodes.json`.  This file format is plaintext and can be modified using a standard text editor, however it is recommended to use a [specialized editor](http://www.jsoneditoronline.org/).
 
 Aquarium will look for a `nodes.json` file in the directory adjacent to the `.jar` and automatically load it in.  If this file is not found, you can load an appropriate file manually through the File menu.  
 

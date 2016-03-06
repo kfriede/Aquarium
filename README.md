@@ -12,6 +12,9 @@ Aquarium is dependent on a JSON formatted file which contains information of the
 
 Aquarium will look for a `nodes.json` file in the directory adjacent to the `.jar` and automatically load it in.  If this file is not found, you can load an appropriate file manually through the File menu.  
 
+## Compiling from Source
+In the project directory, run:
+`mvn clean compile assembly:single`.  An executable .jar file can then be found in the "target" directory.  
 
 ## Common Messages:
 - `OK`: TV accepted command

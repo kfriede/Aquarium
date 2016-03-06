@@ -26,7 +26,6 @@
                 <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" />
                   <ColumnConstraints hgrow="NEVER" maxWidth="68.0" minWidth="10.0" prefWidth="68.0" />
                   <ColumnConstraints hgrow="ALWAYS" maxWidth="150.0" minWidth="100.0" />
-                  <ColumnConstraints hgrow="ALWAYS" maxWidth="40.0" minWidth="10.0" prefWidth="40.0" />
                   <ColumnConstraints hgrow="NEVER" maxWidth="68.0" minWidth="0.0" prefWidth="68.0" />
               </columnConstraints>
               <rowConstraints>
@@ -37,14 +36,7 @@
                   <ComboBox fx:id="commandComboBox" MaxWidth="Infinity" prefHeight="27.0" prefWidth="0.0" GridPane.columnIndex="3" />
                   <Label prefHeight="17.0" prefWidth="81.0" text="Parameter:" GridPane.columnIndex="4" />
                   <ComboBox fx:id="parameterComboBox" MaxWidth="Infinity" GridPane.columnIndex="5" />
-                  <Button fx:id="sendButton" defaultButton="true" mnemonicParsing="false" prefHeight="27.0" prefWidth="248.0" text="Send" GridPane.columnIndex="7" GridPane.halignment="CENTER" />
-                  <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="?" GridPane.columnIndex="6">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                     <tooltip>
-                        <Tooltip fx:id="helpTooltip" text="Empty Tooltip" />
-                     </tooltip></Button>
+                  <Button fx:id="sendButton" defaultButton="true" mnemonicParsing="false" prefHeight="27.0" prefWidth="248.0" text="Send" GridPane.columnIndex="6" GridPane.halignment="CENTER" />
                   <Label text="Node:" />
                   <ComboBox fx:id="nodeComboBox" prefHeight="27.0" prefWidth="559.0" GridPane.columnIndex="1" />
                </children>

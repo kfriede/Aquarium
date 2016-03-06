@@ -69,9 +69,6 @@ public class MainWindow {
 	
 	private ThreadGroup threadManager = new ThreadGroup("Active Sockets");
 	
-//	private PopOver popOver = new PopOver();
-//	private Label popOverLabel = new Label();
-	
 	@FXML
 	private void initialize() {
 		
@@ -79,9 +76,6 @@ public class MainWindow {
 			
 			buildMenu();
 			setConsoleTextAreaListener();
-			
-//			popOver.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-//			popOver.setContentNode(popOverLabel);
 			
 			setListeners();
 			loadDefaults();
@@ -401,12 +395,6 @@ public class MainWindow {
 	        	handleParameterSelection(t1);
 	        }    
 	    });
-		// TODO
-//		helpButton.setOnAction(new EventHandler<ActionEvent>() {
-//		    @Override public void handle(ActionEvent e) {
-//		        handleHelpButtonClick();
-//		    }
-//		});
 		sendButton.setOnAction(new EventHandler<ActionEvent>() {
 		    public void handle(ActionEvent e) {
 		        handleSendButtonClick();

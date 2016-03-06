@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.json.JSONException;
@@ -420,7 +421,7 @@ public class MainWindow {
 	private void append(final String text) {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				consoleTextArea.appendText(text + "\n");
+				consoleTextArea.appendText(LocalTime.now() + ": " + text + "\n");
 			}
 		});
 	}

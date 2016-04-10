@@ -14,6 +14,10 @@ import com.kfriede.Aquarium.models.Television;
 
 public class InputFileHandler {
 	public static List<Television> parseFile (String filePath) throws FileNotFoundException, NullPointerException, JSONException {
+		if (filePath == null) {
+			throw new FileNotFoundException("Property `last_used_nodes_file` not found");
+		}
+		
 		List<Television> tvList = new ArrayList<Television>();
 		
 		/**

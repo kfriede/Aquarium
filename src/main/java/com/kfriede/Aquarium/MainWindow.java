@@ -16,6 +16,7 @@ import com.kfriede.Aquarium.util.AboutWindow;
 import com.kfriede.Aquarium.util.CommandFileHandler;
 import com.kfriede.Aquarium.util.InputFileHandler;
 import com.kfriede.Aquarium.util.MessageHandler;
+import com.kfriede.Aquarium.util.StorageHandler;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -69,54 +70,18 @@ public class MainWindow {
 	
 	private ThreadGroup threadManager = new ThreadGroup("Active Sockets");
 	
+	
+	
 	@FXML
 	private void initialize() {
 		
-		try {
-			
-			buildMenu();
-			setConsoleTextAreaListener();
-			
-			setListeners();
-			loadDefaults();
-			
-		} catch (Exception ex) {
-			
-			/**
-			 * SHOW EXCEPTION ALERT DIALOG
-			 */
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText("Unhandled Exception:");
-			alert.setContentText(ex.getMessage().toString());
+		StorageHandler.initialize();
 
-			// Create expandable Exception.
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			ex.printStackTrace(pw);
-			String exceptionText = sw.toString();
-
-			Label label = new Label("The exception stacktrace was:");
-
-			TextArea textArea = new TextArea(exceptionText);
-			textArea.setEditable(false);
-			textArea.setWrapText(true);
-
-			textArea.setMaxWidth(Double.MAX_VALUE);
-			textArea.setMaxHeight(Double.MAX_VALUE);
-			GridPane.setVgrow(textArea, Priority.ALWAYS);
-			GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-			GridPane expContent = new GridPane();
-			expContent.setMaxWidth(Double.MAX_VALUE);
-			expContent.add(label, 0, 0);
-			expContent.add(textArea, 0, 1);
-
-			// Set expandable Exception into the dialog pane.
-			alert.getDialogPane().setExpandableContent(expContent);
-
-			alert.showAndWait();
-		}
+		buildMenu();
+		setConsoleTextAreaListener();
+		
+		setListeners();
+		loadDefaults();
 		
 	}
 	
@@ -242,7 +207,7 @@ public class MainWindow {
 				return;
 			}
     		
-    		MainApp.PROPERTIES.setProperty("lastUsedFile", inFile.getAbsolutePath());
+    		StorageHandler.PROPERTIES.setProperty("last_used_nodes_file", inFile.getAbsolutePath());
     	}
     	
 	}
@@ -366,10 +331,13 @@ public class MainWindow {
 		 * Load Televisions from last opened file
 		 */
 		try {
-			loadNodes(InputFileHandler.parseFile(MainApp.PROPERTIES.getProperty("nodes_file")));
-			append("Loaded nodes from " + MainApp.PROPERTIES.getProperty("nodes_file"));
+			String nodes_file = StorageHandler.PROPERTIES.getProperty("last_used_nodes_file");
+			
+			loadNodes(InputFileHandler.parseFile(nodes_file));
+			append("Loaded nodes from " + nodes_file);
+			
 		} catch (FileNotFoundException e) {
-			append("Error opening default nodes file: " + e.getMessage().toString());
+			append("Error opening last used nodes file: " + e.getMessage().toString());
 		}
 	}
 	

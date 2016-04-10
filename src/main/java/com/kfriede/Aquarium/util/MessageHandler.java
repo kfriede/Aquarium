@@ -12,8 +12,6 @@ import java.net.Socket;
 import com.kfriede.Aquarium.MainApp;
 
 public class MessageHandler {
-	
-	private static int TIMEOUT = Integer.parseInt(MainApp.PROPERTIES.getProperty("socket_timeout"));
 
 	/**
 	 * 
@@ -44,7 +42,7 @@ public class MessageHandler {
 			}
 			
 			Socket cSocket = new Socket();
-			cSocket.connect(new InetSocketAddress(ip, port), TIMEOUT);
+			cSocket.connect(new InetSocketAddress(ip, port), getTimeout());
 			
 			reader = new BufferedReader(new InputStreamReader(cSocket.getInputStream()));
 			writer = new BufferedWriter(new OutputStreamWriter(cSocket.getOutputStream()));
@@ -64,6 +62,19 @@ public class MessageHandler {
 		
 		
 		return response;
+	}
+	
+	private static int getTimeout() {
+		String timeout_prop = StorageHandler.PROPERTIES.getProperty("connection_timeout");
+		int timeout = 0;
+		
+		if (timeout_prop != null) {		// user has set timeout property
+			timeout = Integer.parseInt(timeout_prop);
+		} else {						// user has not set timeout property
+			timeout = Integer.parseInt(MainApp.PROPERTIES.getProperty("connectiom_timeout"));
+		}
+		
+		return timeout;
 	}
 	
 }

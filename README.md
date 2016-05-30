@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kfriede/Aquarium.svg?branch=master)](https://travis-ci.org/kfriede/Aquarium)
+
 # Aquarium - IP Remote Control for Sharp Aquos TV's
 Sharp Aquos TV's provide the ability to be controlled via IP.  This utility allows you to send commands to one or many IP controlled Sharp TV via a computer.  
 

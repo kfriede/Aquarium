@@ -11,6 +11,6 @@ deploy:
   api_key:
     secure: gVF/sss5mkAnCSCEGvOwGBQ0GW4TCGT/mVJjgBqNtAgeT/hRFFgnzwC6VxSYHO1sQy7YyTs5tis80MgnZrjIjCZ/hyUc8s4kpcnW5Bb8yHMNin+/kjuxcfPoiczMxgkWoNWh5KQc+8Isyn1Ns7ByPouUVKT2FaL2cXMEEwMxzFTW00uVinSvleHZj+n3p35XILfzoqZpZdrfZO3xOvafEQUql6TSbdh7bNUUzYvuTmrVjcZJS3+aj6VUIv1XLt8ztxVYPmvlfh9CicYTB0nZWAOU8Cy5k74bHQTSyAvoqapfcrLB1nEcbrYJbN/uIjO7bZyQBRuWiXVPglfMrP1m/aWnLT4lUuhKtXqGRi5qv5Hr2dT4G8dDAoIqdJwhBgoWRhhDKTtKBBW7UwstB1OnwNNev6kCys6CDjl0tECZN3uYPddgEfqSOYA+emEFXM1fhryfW/WOSqS2cRBq5QAraG5Uuqwx6RLBnVHpNEWToOAYX+xDGpfYGRVXw/Pa4Jbr/3XlYvj18m3csDjcGYCEh8YGxyOZBKjLGODy2M+HooSnxnGyhZpjnRMnfJ06LkNX/TakaX9kSpYCLwp+cLAdqrxCoPxCex/JmxaQW86zZi8Us+ljAGY9fnpCRcFfsxg6QVCX8UlcpmzUxRhNhS5rx54PuXHpO8zFHZq4gYJlZww=
   file_glob: true
-  file: "/target/Aquarium*.jar"
+  file: "/home/travis/build/kfriede/Aquarium/target/Aquarium*.jar"
   on:
     repo: kfriede/Aquarium

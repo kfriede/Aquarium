@@ -5,10 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class PropertiesHandler {
-	private Properties prop;
+	private static final String DEFAULT_PROPERTIES_FILE = "default.properties";
+	
+	private Properties props;
 	
 	InputStream propInStream;
 	FileOutputStream propOutStream;
@@ -19,17 +23,29 @@ public class PropertiesHandler {
 		
 		this.filePath = filePath;
 		
-		prop = new Properties();
+		props = new Properties();
 		
 		try {
-			// creates file and parent directories if file does not exist
-			new File(filePath).getParentFile().mkdirs();	// creates parent dir(s) if they don't already exist
-			new File(filePath).createNewFile(); // creates file if it doesn't already exist
 			
+			File f = new File(filePath);
+			
+			// if user file is not found, create it from defaults file
+			if (!f.exists() || f.isDirectory()) {
+				
+				// creates parent directories if not already done
+				new File(filePath).getParentFile().mkdirs();	// creates parent dir(s) if they don't already exist
+				
+				// copy the default file to the user folder location
+				Files.copy(this.getClass().getClassLoader().getResourceAsStream(DEFAULT_PROPERTIES_FILE), Paths.get(filePath));
+			}
+			
+			// open file as stream
 			propInStream = new FileInputStream(filePath);
-			
-			prop.load(propInStream);
+				
+			// load properties from file
+			props.load(propInStream);
 			propInStream.close();
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -39,11 +55,11 @@ public class PropertiesHandler {
 	}
 	
 	public boolean setProperty(String key, String value) {
-		prop.setProperty(key, value);
+		props.setProperty(key, value);
 		
 		try {
 			propOutStream = new FileOutputStream(filePath);
-			prop.store(propOutStream, null);
+			props.store(propOutStream, null);
 			propOutStream.flush();
 			propOutStream.close();
 		} catch (IOException e) {
@@ -57,10 +73,10 @@ public class PropertiesHandler {
 	}
 	
 	public String getProperty(String key) {
-		return prop.getProperty(key);
+		return props.getProperty(key);
 	}
 	
 	public String toString() {
-		return prop.toString();
+		return props.toString();
 	}
 }

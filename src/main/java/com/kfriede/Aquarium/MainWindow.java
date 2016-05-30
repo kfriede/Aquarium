@@ -2,8 +2,6 @@ package com.kfriede.Aquarium;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -24,8 +22,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ComboBox;
@@ -35,8 +31,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 
 public class MainWindow {
@@ -69,7 +63,6 @@ public class MainWindow {
 	private Parameter selectedParameter;
 	
 	private ThreadGroup threadManager = new ThreadGroup("Active Sockets");
-	
 	
 	
 	@FXML

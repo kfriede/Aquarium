@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application{
 	private static final String MAIN_VIEW_FILE_PATH = "MainWindow.fxml";
 	private static final String APPLICATION_TITLE = "Aquarium ";
-	private static final String PROPERTIES_FILE = "project.properties";
+	private static final String PROJECT_PROPERTIES = "project.properties";
 	private static final String ICON_FILE = "icon.png";
 	
 	public static Properties PROPERTIES = new Properties();;
@@ -54,7 +54,7 @@ public class MainApp extends Application{
 	private void loadProperties() {
 		PROPERTIES = new Properties();
 		
-		InputStream propInStream = this.getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE);
+		InputStream propInStream = this.getClass().getClassLoader().getResourceAsStream(PROJECT_PROPERTIES);
 		
 		try {
 			PROPERTIES.load(propInStream);

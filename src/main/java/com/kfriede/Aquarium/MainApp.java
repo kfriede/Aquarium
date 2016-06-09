@@ -1,11 +1,5 @@
 package com.kfriede.Aquarium;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Properties;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,6 +12,12 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Properties;
 
 public class MainApp extends Application{
 	private static final String MAIN_VIEW_FILE_PATH = "MainWindow.fxml";
@@ -47,10 +47,6 @@ public class MainApp extends Application{
 		
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-	
 	private void loadProperties() {
 		PROPERTIES = new Properties();
 		

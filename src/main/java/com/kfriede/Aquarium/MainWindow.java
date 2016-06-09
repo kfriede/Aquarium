@@ -1,37 +1,28 @@
 package com.kfriede.Aquarium;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.time.LocalTime;
-import java.util.List;
-
-import org.json.JSONException;
-
-import com.kfriede.Aquarium.models.Command;
-import com.kfriede.Aquarium.models.Parameter;
-import com.kfriede.Aquarium.models.Television;
+import Neptune.handlers.CommandFileHandler;
+import Neptune.handlers.InputFileHandler;
+import Neptune.handlers.MessageHandler;
+import Neptune.handlers.StorageHandler;
+import Neptune.models.Command;
+import Neptune.models.Parameter;
+import Neptune.models.Television;
 import com.kfriede.Aquarium.util.AboutWindow;
-import com.kfriede.Aquarium.util.CommandFileHandler;
-import com.kfriede.Aquarium.util.InputFileHandler;
-import com.kfriede.Aquarium.util.MessageHandler;
-import com.kfriede.Aquarium.util.StorageHandler;
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import org.json.JSONException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.time.LocalTime;
+import java.util.List;
 
 public class MainWindow {
 	private final String COMMAND_LIST_FILE = "commands.json";
@@ -62,7 +53,7 @@ public class MainWindow {
 	private Command selectedCommand;
 	private Parameter selectedParameter;
 	
-	private ThreadGroup threadManager = new ThreadGroup("Active Sockets");
+	private final ThreadGroup threadManager = new ThreadGroup("Active Sockets");
 	
 	
 	@FXML
@@ -84,18 +75,10 @@ public class MainWindow {
 		 * File Menu
 		 */
 		MenuItem openFile = new MenuItem("Open File");
-        openFile.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent t) {
-            	handleFileOpen();
-            }
-        });  
+        openFile.setOnAction(t -> handleFileOpen());
         
         MenuItem exit = new MenuItem("Exit");
-        exit.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent t) {
-            	Platform.exit();
-            }
-        });  
+        exit.setOnAction(t -> Platform.exit());
         
         fileMenu.getItems().addAll(openFile, exit);
         
@@ -105,25 +88,19 @@ public class MainWindow {
          * Edit Menu
          */
         selectAll = new CheckMenuItem("Select All");
-        selectAll.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent t) {
-            	handleSelectAll();
-            }
-        });  
+        selectAll.setOnAction(t -> handleSelectAll());
         
         MenuItem clear = new MenuItem("Clear");
-        clear.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent t) {
-            	nodeComboBox.getSelectionModel().clearSelection();
-            	commandComboBox.getSelectionModel().clearSelection();
-            	parameterComboBox.getSelectionModel().clearSelection();
-            	
-            	consoleTextArea.setText("");
-            	
-            	selectAll.setSelected(false);
-            	handleSelectAll();
-            }
-        });  
+        clear.setOnAction(t -> {
+            nodeComboBox.getSelectionModel().clearSelection();
+            commandComboBox.getSelectionModel().clearSelection();
+            parameterComboBox.getSelectionModel().clearSelection();
+
+            consoleTextArea.setText("");
+
+            selectAll.setSelected(false);
+            handleSelectAll();
+        });
         
         editMenu.getItems().addAll(selectAll, new SeparatorMenuItem(), clear);
         
@@ -132,11 +109,7 @@ public class MainWindow {
          * Help Menu
          */
         MenuItem about = new MenuItem("About");
-        about.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent t) {
-            	AboutWindow.buildWindow().showAndWait();
-            }
-        });  
+        about.setOnAction(t -> AboutWindow.buildWindow().showAndWait());
         
         helpMenu.getItems().addAll(about);
 	}
@@ -195,12 +168,15 @@ public class MainWindow {
     		try {
 				loadNodes(InputFileHandler.parseFile(inFile.getAbsolutePath()));
 				append("Opened " + inFile.getAbsolutePath() + " successfully");
+
+				// save reference to file location in properties
+				StorageHandler.PROPERTIES.setProperty("last_used_nodes_file", inFile.getAbsolutePath());
+
 			} catch (FileNotFoundException | JSONException e) {
 				append("Error opening file: " + e.getMessage().toString());
 				return;
 			}
-    		
-    		StorageHandler.PROPERTIES.setProperty("last_used_nodes_file", inFile.getAbsolutePath());
+
     	}
     	
 	}
@@ -252,16 +228,21 @@ public class MainWindow {
 		} else if (selectedParameter == null) {
 			append("Abort: Please select a parameter");
 		} else {
-			Thread runner = null;
+			Thread runner;
 			
 			if (selectAll.isSelected()) {
 				for (final Television t : tvList) {
 					runner = new Thread(threadManager, "") {
 						public void run() {
 							updateThreadCountLabel();
-				        	append(t.getName() + " <" + t.getIp() + ">: " + MessageHandler.sendCommand(t.getIp(), t.getPort(), t.getUsername(), t.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue()));
+
+							String returnedStatus = MessageHandler.sendCommand(t.getIp(), t.getPort(), t.getUsername(), t.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue());
+							if (!returnedStatus.equalsIgnoreCase("OK")) {
+								append("Error: " + t.getName() + " <" + t.getIp() + ">: " + returnedStatus);
+							}
+
 				        	updateThreadCountLabel();
-						}  
+						}
 					};
 					
 					runner.setDaemon(true);
@@ -276,7 +257,7 @@ public class MainWindow {
 					    	updateThreadCountLabel();
 				        	append(selectedNode.getName() + " <" + selectedNode.getIp() + ">: " + MessageHandler.sendCommand(selectedNode.getIp(), selectedNode.getPort(), selectedNode.getUsername(), selectedNode.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue()));
 				        	updateThreadCountLabel();
-					    }  
+					    }
 					};
 					
 					runner.setDaemon(true);
@@ -291,7 +272,7 @@ public class MainWindow {
 	 * Selects/Deselects all nodes available based on user action
 	 */
 	private void handleSelectAll() {
-		nodeComboBox.setDisable((selectAll.isSelected() ? true : false));
+		nodeComboBox.setDisable((selectAll.isSelected()));
 	}
 	
 	/**
@@ -299,11 +280,7 @@ public class MainWindow {
 	 * Updates the thread counter label with the current number of active threads
 	 */
 	private void updateThreadCountLabel() {
-		Platform.runLater(new Runnable() {
-			public void run() {
-				threadCountLabel.setText("Threads: " + threadManager.activeCount());
-			}
-		});
+		Platform.runLater(() -> threadCountLabel.setText("Threads: " + threadManager.activeCount()));
 	}
 	
 	/**
@@ -344,7 +321,7 @@ public class MainWindow {
 		nodeComboBox.valueProperty().addListener(new ChangeListener<Television>() {
 	        public void changed(ObservableValue<? extends Television> ov, Television t, Television t1) {
 	        	handleNodeSelection(t1);
-	        }    
+	        }
 	    });
 		commandComboBox.valueProperty().addListener(new ChangeListener<Command>() {
 	        public void changed(ObservableValue<? extends Command> ov, Command t, Command t1) {

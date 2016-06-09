@@ -3,10 +3,10 @@ package com.kfriede.Aquarium;
 import Neptune.handlers.CommandFileHandler;
 import Neptune.handlers.InputFileHandler;
 import Neptune.handlers.MessageHandler;
-import Neptune.handlers.StorageHandler;
 import Neptune.models.Command;
 import Neptune.models.Parameter;
 import Neptune.models.Television;
+import com.kfriede.Aquarium.handlers.StorageHandler;
 import com.kfriede.Aquarium.util.AboutWindow;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 public class MainWindow {
 	private final String COMMAND_LIST_FILE = "commands.json";
@@ -217,6 +218,11 @@ public class MainWindow {
 	 * Sends selected values to selected TV(s)
 	 */
 	private void handleSendButtonClick() {
+		clearConsole();
+		Integer timeout;
+
+		timeout = Integer.parseInt(StorageHandler.PROPERTIES.getProperty("connection_timeout"));
+
 		if (threadManager.activeCount() > 0) {
 			threadManager.destroy();
 			updateThreadCountLabel();
@@ -236,7 +242,7 @@ public class MainWindow {
 						public void run() {
 							updateThreadCountLabel();
 
-							String returnedStatus = MessageHandler.sendCommand(t.getIp(), t.getPort(), t.getUsername(), t.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue());
+							String returnedStatus = MessageHandler.sendCommand(t.getIp(), t.getPort(), Optional.of(timeout), t.getUsername(), t.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue());
 							if (!returnedStatus.equalsIgnoreCase("OK")) {
 								append("Error: " + t.getName() + " <" + t.getIp() + ">: " + returnedStatus);
 							}
@@ -255,7 +261,7 @@ public class MainWindow {
 					runner = new Thread(threadManager, "") {
 					    public void run() {
 					    	updateThreadCountLabel();
-				        	append(selectedNode.getName() + " <" + selectedNode.getIp() + ">: " + MessageHandler.sendCommand(selectedNode.getIp(), selectedNode.getPort(), selectedNode.getUsername(), selectedNode.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue()));
+				        	append(selectedNode.getName() + " <" + selectedNode.getIp() + ">: " + MessageHandler.sendCommand(selectedNode.getIp(), selectedNode.getPort(), Optional.of(timeout), selectedNode.getUsername(), selectedNode.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue()));
 				        	updateThreadCountLabel();
 					    }
 					};
@@ -363,5 +369,12 @@ public class MainWindow {
 		        consoleTextArea.setScrollTop(Double.MIN_VALUE);
 		    }
 		});
+	}
+
+	/**
+	 * Clears console in preparation for new command(s) to be sent
+	 */
+	private void clearConsole() {
+		consoleTextArea.setText("");
 	}
 }

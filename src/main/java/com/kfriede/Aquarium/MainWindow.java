@@ -17,16 +17,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 public class MainWindow {
 	private final String COMMAND_LIST_FILE = "commands.json";
+	private static Logger log = Logger.getLogger(MainWindow.class.getName());
 	
 	@FXML private AnchorPane mainAnchor;
 	
@@ -61,6 +62,8 @@ public class MainWindow {
 	private void initialize() {
 		
 		StorageHandler.initialize();
+		log.debug("Application started");
+		log.debug(System.getProperty("aquarium.root"));
 
 		buildMenu();
 		setConsoleTextAreaListener();
@@ -219,9 +222,15 @@ public class MainWindow {
 	 */
 	private void handleSendButtonClick() {
 		clearConsole();
-		Integer timeout;
+		final int timeout;
 
-		timeout = Integer.parseInt(StorageHandler.PROPERTIES.getProperty("connection_timeout"));
+		int parser = 200;
+		try {
+			parser = Integer.parseInt(StorageHandler.PROPERTIES.getProperty("connection_timeout"));
+		} catch (NumberFormatException e) {
+			log.debug("Error parsing connection_timeout value from properties: " + e.getMessage() + "  Using default value of 200ms");
+		}
+		timeout = parser;
 
 		if (threadManager.activeCount() > 0) {
 			threadManager.destroy();
@@ -242,7 +251,7 @@ public class MainWindow {
 						public void run() {
 							updateThreadCountLabel();
 
-							String returnedStatus = MessageHandler.sendCommand(t.getIp(), t.getPort(), Optional.of(timeout), t.getUsername(), t.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue());
+							String returnedStatus = MessageHandler.sendCommand(t.getIp(), t.getPort(), timeout, t.getUsername(), t.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue());
 							if (!returnedStatus.equalsIgnoreCase("OK")) {
 								append("Error: " + t.getName() + " <" + t.getIp() + ">: " + returnedStatus);
 							}
@@ -261,7 +270,7 @@ public class MainWindow {
 					runner = new Thread(threadManager, "") {
 					    public void run() {
 					    	updateThreadCountLabel();
-				        	append(selectedNode.getName() + " <" + selectedNode.getIp() + ">: " + MessageHandler.sendCommand(selectedNode.getIp(), selectedNode.getPort(), Optional.of(timeout), selectedNode.getUsername(), selectedNode.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue()));
+				        	append(selectedNode.getName() + " <" + selectedNode.getIp() + ">: " + MessageHandler.sendCommand(selectedNode.getIp(), selectedNode.getPort(), timeout, selectedNode.getUsername(), selectedNode.getPassword(), selectedCommand.getCommand(), selectedParameter.getValue()));
 				        	updateThreadCountLabel();
 					    }
 					};
@@ -356,6 +365,8 @@ public class MainWindow {
 				consoleTextArea.appendText(LocalTime.now() + ": " + text + "\n");
 			}
 		});
+
+		log.info(text);
 	}
 	
 	/**
